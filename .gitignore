@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+
+data/uploaded_pdfs/
+data/faiss_index/
+data/metadata/
+
+.streamlit/secrets.toml
+.env
+*.log
