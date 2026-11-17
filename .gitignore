@@ -1,11 +1,24 @@
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Python virtual environment
 .venv/
+venv/
+
+# Python cache
 __pycache__/
 *.pyc
 
-data/uploaded_pdfs/
-data/faiss_index/
-data/metadata/
+# Generated document data
+data/*
+!data/.gitkeep
 
-.streamlit/secrets.toml
-.env
-*.log
+# IDE configuration
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db

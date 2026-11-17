@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#5260e8">
+    <meta name="description"
+          content="Smart Education Assistant for engineering students. Learn from PDFs with AI-powered answers, summaries and quizzes.">
+
+    <title>SmartEdu | AI Learning Assistant</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="./style.css">
+    <script src="./script.js" defer></script>
+</head>
+
+<body>
+
+<div class="app-shell">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <a href="#" class="brand" data-page="dashboard">
+            <span class="brand-icon">✦</span>
+
+            <span>
+                <span class="brand-name">SmartEdu</span>
+                <span class="brand-subtitle">AI Learning Assistant</span>
+            </span>
+        </a>
+
+        <div class="nav-label">Workspace</div>
+
+        <nav class="nav-list" aria-label="Main navigation">
+
+            <button class="nav-item active"
+                    type="button"
+                    data-page="dashboard">
+                <span class="nav-icon">▦</span>
+                <span>Overview</span>
+            </button>
+
+            <button class="nav-item"
+                    type="button"
+                    data-page="documents">
+                <span class="nav-icon">▤</span>
+                <span>My Documents</span>
+                <span class="nav-count" id="navDocumentCount">0</span>
+            </button>
+
+            <button class="nav-item"
+                    type="button"
+                    data-page="ask">
+                <span class="nav-icon">✳</span>
+                <span>Ask AI</span>
+            </button>
+
+            <button class="nav-item"
+                    type="button"
+                    data-page="summary">
+                <span class="nav-icon">☷</span>
+                <span>Study Summary</span>
+            </button>
+
+            <button class="nav-item"
+                    type="button"
+                    data-page="quiz">
+                <span class="nav-icon">✓</span>
+                <span>Practice Quiz</span>
+            </button>
+
+        </nav>
+
+        <div class="sidebar-spacer"></div>
+
+        <div class="sidebar-help">
+            <div class="sidebar-help-icon">💡</div>
+
+            <h4>Study smarter</h4>
+
+            <p>
+                Upload your study material and learn difficult
+                engineering concepts in simple language.
+            </p>
+
+            <button type="button" data-page="documents">
+                Upload a document →
+            </button>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="avatar">S</div>
+
+            <div class="footer-user">
+                <strong>Student Workspace</strong>
+                <span>English + Tamil learning</span>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button class="icon-button menu-button"
+                        id="menuButton"
+                        type="button"
+                        aria-label="Open navigation">
+                    ☰
+                </button>
+
+                <div class="breadcrumb">
+                    Workspace /
+                    <strong id="breadcrumb">Dashboard</strong>
+                </div>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <span class="status-pill">
+                    <span class="status-dot" id="topDot"></span>
+                    <span id="topStatus">Checking system</span>
+                </span>
+
+                <button class="icon-button"
+                        id="themeToggle"
+                        type="button"
+                        aria-label="Toggle dark mode"
+                        title="Toggle dark mode">
+                    🌙
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <div class="page-container">
+
+
+            <!-- DASHBOARD -->
+
+            <section class="page active" id="page-dashboard">
+
+                <div class="welcome-banner">
+
+                    <div class="welcome-content">
+
+                        <span class="welcome-label">
+                            YOUR PERSONAL STUDY SPACE
+                        </span>
+
+                        <h1>
+                            Learn smarter.<br>
+                            Understand better.
+                        </h1>
+
+                        <p>
+                            Turn your engineering study materials into
+                            clear explanations, focused summaries and
+                            interactive practice questions.
+                        </p>
+
+                        <button class="btn"
+                                type="button"
+                                data-page="documents">
+                            ＋ Upload Study Material
+                        </button>
+
+                    </div>
+
+                    <div class="welcome-art" aria-hidden="true">
+                        📚
+                    </div>
+
+                </div>
+
+
+                <!-- STATISTICS -->
+
+                <div class="stats-grid">
+
+                    <article class="card stat-card">
+
+                        <div class="stat-top">
+                            <span class="stat-icon purple">📄</span>
+                            <span class="stat-label">Your Library</span>
+                        </div>
+
+                        <div class="stat-number" id="documentCount">0</div>
+
+                        <div class="stat-caption">
+                            Documents processed
+                        </div>
+
+                    </article>
+
+
+                    <article class="card stat-card">
+
+                        <div class="stat-top">
+                            <span class="stat-icon green">🧩</span>
+                            <span class="stat-label">Knowledge Base</span>
+                        </div>
+
+                        <div class="stat-number" id="chunkCount">0</div>
+
+                        <div class="stat-caption">
+                            Searchable text chunks
+                        </div>
+
+                    </article>
+
+
+                    <article class="card stat-card">
+
+                        <div class="stat-top">
+                            <span class="stat-icon orange">🤖</span>
+                            <span class="stat-label">AI Assistant</span>
+                        </div>
+
+                        <div class="stat-number">Phi-3 Mini</div>
+
+                        <div class="stat-caption">
+                            Local language model
+                        </div>
+
+                    </article>
+
+                </div>
+
+
+                <!-- STUDY TOOLS -->
+
+                <div class="section-title">
+                    <h2>Your study tools</h2>
+
+                    <span class="muted small">
+                        Everything in one workspace
+                    </span>
+                </div>
+
+
+                <div class="tool-grid">
+
+                    <article class="tool-card">
+
+                        <div class="tool-icon purple">📚</div>
+
+                        <h3>My Documents</h3>
+
+                        <p>
+                            Upload educational PDFs and build your
+                            personal knowledge base.
+                        </p>
+
+                        <button type="button" data-page="documents">
+                            Manage Documents →
+                        </button>
+
+                    </article>
+
+
+                    <article class="tool-card">
+
+                        <div class="tool-icon green">✳</div>
+
+                        <h3>Ask AI</h3>
+
+                        <p>
+                            Ask questions and get answers grounded
+                            in your study material.
+                        </p>
+
+                        <button type="button" data-page="ask">
+                            Ask a Question →
+                        </button>
+
+                    </article>
+
+
+                    <article class="tool-card">
+
+                        <div class="tool-icon orange">☷</div>
+
+                        <h3>Study Summary</h3>
+
+                        <p>
+                            Turn lengthy chapters into concise
+                            notes for revision.
+                        </p>
+
+                        <button type="button" data-page="summary">
+                            Create a Summary →
+                        </button>
+
+                    </article>
+
+
+                    <article class="tool-card">
+
+                        <div class="tool-icon purple">✓</div>
+
+                        <h3>Practice Quiz</h3>
+
+                        <p>
+                            Test your understanding with questions
+                            generated from your document.
+                        </p>
+
+                        <button type="button" data-page="quiz">
+                            Start Practicing →
+                        </button>
+
+                    </article>
+
+                </div>
+
+
+                <!-- GETTING STARTED -->
+
+                <div class="activity-card card">
+
+                    <div class="card-heading">
+                        <div>
+                            <h2>Getting started</h2>
+                            <p>Follow these steps to begin learning.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-list">
+
+                        <div class="info-item">
+                            <span class="info-check">1</span>
+
+                            <div>
+                                <strong>Upload your PDF</strong>
+
+                                <p>
+                                    Add your textbook, lecture notes
+                                    or educational material.
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="info-item">
+                            <span class="info-check">2</span>
+
+                            <div>
+                                <strong>Ask questions</strong>
+
+                                <p>
+                                    Explore the document with
+                                    context-aware AI assistance.
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="info-item">
+                            <span class="info-check">3</span>
+
+                            <div>
+                                <strong>Revise and practise</strong>
+
+                                <p>
+                                    Generate chapter summaries
+                                    and test your understanding.
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- DOCUMENTS PAGE -->
+
+            <section class="page" id="page-documents">
+
+                <div class="page-heading">
+
+                    <div>
+                        <span class="heading-eyebrow">
+                            YOUR KNOWLEDGE BASE
+                        </span>
+
+                        <h1>My Documents</h1>
+
+                        <p>
+                            Upload a PDF to extract its content and
+                            prepare it for semantic search.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="upload-layout">
+
+                    <div class="card card-padding">
+
+                        <div class="card-heading">
+
+                            <div>
+                                <h2>Upload study material</h2>
+
+                                <p>
+                                    Select a PDF from your computer.
+                                </p>
+                            </div>
+
+                            <span class="stat-icon purple">↑</span>
+
+                        </div>
+
+
+                        <!-- PDF DROP ZONE -->
+
+                        <div class="drop-zone"
+                             id="dropZone"
+                             role="button"
+                             tabindex="0"
+                             aria-label="Choose a PDF file">
+
+                            <div class="drop-icon">📄</div>
+
+                            <h3>Drop your PDF here</h3>
+
+                            <p>
+                                Or choose a file from your computer.
+                            </p>
+
+                            <button class="btn btn-primary"
+                                    type="button"
+                                    id="chooseFileButton">
+                                Browse PDF files
+                            </button>
+
+                            <input class="file-input"
+                                   type="file"
+                                   id="pdfInput"
+                                   accept=".pdf,application/pdf">
+
+                            <p class="small muted">
+                                PDF documents only
+                            </p>
+
+                        </div>
+
+
+                        <!-- SELECTED FILE -->
+
+                        <div class="selected-file hidden"
+                             id="selectedFile">
+
+                            <div class="file-icon">📕</div>
+
+                            <div class="file-details">
+
+                                <strong id="selectedFileName"></strong>
+
+                                <span id="selectedFileSize"></span>
+
+                            </div>
+
+                            <button class="remove-file"
+                                    id="removeFile"
+                                    type="button"
+                                    aria-label="Remove selected file">
+                                ✕
+                            </button>
+
+                        </div>
+
+
+                        <!-- PROCESSING PROGRESS -->
+
+                        <div class="process-progress hidden"
+                             id="processProgress">
+
+                            <div class="progress-header">
+
+                                <span id="processStatus">
+                                    Preparing document
+                                </span>
+
+                                <span id="processPercent">0%</span>
+
+                            </div>
+
+                            <div class="progress-track">
+                                <div class="progress-fill"></div>
+                            </div>
+
+                            <p class="progress-detail"
+                               id="processDetail">
+                                Waiting to process the PDF.
+                            </p>
+
+                        </div>
+
+
+                        <button class="btn btn-primary btn-block"
+                                id="processButton"
+                                type="button"
+                                disabled
+                                style="margin-top: 16px">
+                            Process PDF →
+                        </button>
+
+                    </div>
+
+
+                    <!-- HOW IT WORKS -->
+
+                    <aside class="card card-padding">
+
+                        <div class="card-heading">
+
+                            <div>
+                                <h3>How it works</h3>
+
+                                <p>
+                                    Your PDF becomes searchable study material.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="info-list">
+
+                            <div class="info-item">
+
+                                <span class="info-check">✓</span>
+
+                                <div>
+                                    <strong>Text extraction</strong>
+
+                                    <p>
+                                        Extract readable text from
+                                        the uploaded document.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span class="info-check">✓</span>
+
+                                <div>
+                                    <strong>Text chunking</strong>
+
+                                    <p>
+                                        Divide content into smaller
+                                        sections for retrieval.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span class="info-check">✓</span>
+
+                                <div>
+                                    <strong>Semantic search</strong>
+
+                                    <p>
+                                        Retrieve relevant sections
+                                        when you ask questions.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </aside>
+
+                </div>
+
+
+                <!-- DOCUMENT LIBRARY -->
+
+                <div class="section-title">
+
+                    <h2>Your document library</h2>
+
+                    <span class="muted small" id="libraryCaption">
+                        No documents processed yet.
+                    </span>
+
+                </div>
+
+
+                <div class="document-list" id="documentList">
+
+                    <div class="empty-state">
+
+                        <div class="empty-state-icon">📚</div>
+
+                        <h3>No documents yet</h3>
+
+                        <p>
+                            Upload your first PDF to get started.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ASK AI PAGE -->
+
+            <section class="page" id="page-ask">
+
+                <div class="page-heading">
+
+                    <div>
+                        <span class="heading-eyebrow">
+                            AI STUDY ASSISTANT
+                        </span>
+
+                        <h1>Ask AI</h1>
+
+                        <p>
+                            Ask questions about your uploaded
+                            educational documents.
+                        </p>
+                    </div>
+
+                    <span class="language-badge">
+                        English + தமிழ்
+                    </span>
+
+                </div>
+
+
+                <div class="chat-layout">
+
+                    <div class="card chat-card">
+
+                        <!-- CHAT HEADER -->
+
+                        <div class="chat-header">
+
+                            <div class="ai-avatar">✳</div>
+
+                            <div>
+                                <h3>SmartEdu AI</h3>
+
+                                <p>
+                                    Answers based on your study material
+                                </p>
+                            </div>
+
+                            <span class="status-dot"
+                                  id="chatStatusDot"></span>
+
+                        </div>
+
+
+                        <!-- CHAT OUTPUT -->
+
+                        <div class="answer-area" id="answerArea">
+
+                            <div class="chat-welcome">
+
+                                <div class="chat-welcome-icon">✦</div>
+
+                                <h2>What would you like to learn?</h2>
+
+                                <p>
+                                    Ask a question about your processed
+                                    document to begin.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- SUGGESTED QUESTIONS -->
+
+                        <div class="chat-form-wrap">
+
+                            <div class="suggestion-list">
+
+                                <button class="suggestion-chip"
+                                        type="button"
+                                        data-question="Explain the main concepts in simple terms.">
+                                    Explain the main concepts
+                                </button>
+
+                                <button class="suggestion-chip"
+                                        type="button"
+                                        data-question="Summarize the important points.">
+                                    Important points
+                                </button>
+
+                                <button class="suggestion-chip"
+                                        type="button"
+                                        data-question="Give me an example of the main concept.">
+                                    Give an example
+                                </button>
+
+                            </div>
+
+
+                            <!-- QUESTION INPUT -->
+
+                            <form class="chat-form" id="askForm">
+
+                                <textarea
+                                    id="questionInput"
+                                    rows="1"
+                                    placeholder="Ask your question..."
+                                    aria-label="Your question"
+                                    required></textarea>
+
+                                <button class="chat-send"
+                                        id="askButton"
+                                        type="submit"
+                                        aria-label="Send question">
+                                    ↑
+                                </button>
+
+                            </form>
+
+
+                            <p class="chat-note">
+                                AI-generated answers should be checked
+                                against your study material.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- STUDY TIPS -->
+
+                    <aside class="card side-panel">
+
+                        <h3>Study tips</h3>
+
+                        <div class="info-list">
+
+                            <div class="info-item">
+
+                                <span class="info-check">1</span>
+
+                                <div>
+                                    <strong>Be specific</strong>
+
+                                    <p>
+                                        Mention the concept you
+                                        want explained.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span class="info-check">2</span>
+
+                                <div>
+                                    <strong>Ask follow-up questions</strong>
+
+                                    <p>
+                                        Explore difficult topics
+                                        one step at a time.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div class="info-item">
+
+                                <span class="info-check">3</span>
+
+                                <div>
+                                    <strong>Use simple explanations</strong>
+
+                                    <p>
+                                        Ask for examples and
+                                        beginner-friendly descriptions.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </aside>
+
+                </div>
+
+            </section>
+
+
+            <!-- SUMMARY PAGE -->
+
+            <section class="page" id="page-summary">
+
+                <div class="page-heading">
+
+                    <div>
+                        <span class="heading-eyebrow">
+                            SMART REVISION
+                        </span>
+
+                        <h1>Study Summary</h1>
+
+                        <p>
+                            Generate concise revision notes from
+                            your processed educational material.
+                        </p>
+                    </div>
+
+                    <button class="btn btn-primary"
+                            id="summaryButton"
+                            type="button">
+                        ✦ Generate Summary
+                    </button>
+
+                </div>
+
+
+                <div class="summary-layout">
+
+                    <div class="card summary-card">
+
+                        <div class="card-heading">
+
+                            <div>
+                                <h2>Your chapter summary</h2>
+
+                                <p>
+                                    Generated from your current document.
+                                </p>
+                            </div>
+
+                            <span class="stat-icon green">☷</span>
+
+                        </div>
+
+
+                        <!-- SUMMARY OUTPUT -->
+
+                        <div class="summary-area" id="summaryArea">
+
+                            <div class="summary-placeholder">
+
+                                <div class="empty-state-icon">📝</div>
+
+                                <h3>Your summary will appear here</h3>
+
+                                <p>
+                                    Process a PDF, then generate a summary
+                                    for quick revision.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- SUMMARY ACTIONS -->
+
+                        <div class="summary-actions hidden"
+                             id="summaryActions">
+
+                            <button class="btn btn-secondary"
+                                    id="copySummaryButton"
+                                    type="button">
+                                Copy Summary
+                            </button>
+
+                            <button class="btn btn-primary"
+                                    id="downloadSummaryButton"
+                                    type="button">
+                                Download PDF ↓
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- REVISION TIPS -->
+
+                    <aside class="card card-padding">
+
+                        <div class="card-heading">
+
+                            <div>
+                                <h3>Revision tips</h3>
+
+                                <p>
+                                    Make your study sessions effective.
+                                </p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="summary-tips">
+
+                            <div class="tip-item">
+
+                                <span class="tip-icon">🎯</span>
+
+                                <div>
+                                    <strong>Focus on key ideas</strong>
+
+                                    <p>
+                                        Identify definitions,
+                                        principles and relationships.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div class="tip-item">
+
+                                <span class="tip-icon">🧠</span>
+
+                                <div>
+                                    <strong>Recall from memory</strong>
+
+                                    <p>
+                                        Close your notes and explain
+                                        the concept yourself.
+                                    </p>
+                                </div>
+
+                            </div>
+
+
+                            <div class="tip-item">
+
+                                <span class="tip-icon">✓</span>
+
+                                <div>
+                                    <strong>Test your knowledge</strong>
+
+                                    <p>
+                                        Use the practice quiz
+                                        after revising.
+                                    </p>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </aside>
+
+                </div>
+
+            </section>
+
+
+            <!-- QUIZ PAGE -->
+
+            <section class="page" id="page-quiz">
+
+                <div class="page-heading">
+
+                    <div>
+                        <span class="heading-eyebrow">
+                            TEST YOUR KNOWLEDGE
+                        </span>
+
+                        <h1>Practice Quiz</h1>
+
+                        <p>
+                            Check your understanding with questions
+                            based on your study material.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <!-- QUIZ INTRODUCTION -->
+
+                <div class="quiz-hero" id="quizIntro">
+
+                    <div class="quiz-hero-content">
+
+                        <h2>Ready to challenge yourself?</h2>
+
+                        <p>
+                            Generate a quiz from your processed PDF
+                            and answer questions one at a time.
+                        </p>
+
+                        <button class="btn btn-primary"
+                                id="quizButton"
+                                type="button">
+                            Generate Practice Quiz →
+                        </button>
+
+                    </div>
+
+                    <div class="quiz-hero-art">🧠</div>
+
+                </div>
+
+
+                <!-- QUIZ WORKSPACE -->
+
+                <div class="card quiz-workspace hidden"
+                     id="quizWorkspace">
+
+                    <div class="quiz-progress-header">
+
+                        <span id="quizProgressLabel">
+                            Question 1 of 10
+                        </span>
+
+                        <span id="quizProgressPercent">0%</span>
+
+                    </div>
+
+
+                    <div class="quiz-progress-track">
+
+                        <div class="quiz-progress-bar"
+                             id="quizProgressBar"></div>
+
+                    </div>
+
+
+                    <div id="quizArea"></div>
+
+
+                    <!-- QUIZ NAVIGATION -->
+
+                    <div class="quiz-navigation">
+
+                        <button class="btn btn-secondary"
+                                id="prevQuestionButton"
+                                type="button">
+                            ← Previous
+                        </button>
+
+                        <div class="quiz-navigation-right">
+
+                            <button class="btn btn-primary"
+                                    id="nextQuestionButton"
+                                    type="button">
+                                Next question →
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUIZ RESULTS -->
+
+                <div class="card quiz-results hidden"
+                     id="quizResults">
+
+                    <div class="quiz-result-icon">✓</div>
+
+                    <h2>Quiz completed!</h2>
+
+                    <div class="quiz-score" id="quizScore">0%</div>
+
+                    <p id="quizFinalText">
+                        Your results will appear here.
+                    </p>
+
+                    <div class="quiz-result-actions">
+
+                        <button class="btn btn-primary"
+                                id="retryQuizButton"
+                                type="button">
+                            Try Again
+                        </button>
+
+                        <button class="btn btn-secondary"
+                                id="downloadQuizButton"
+                                type="button">
+                            Download Quiz PDF
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- FOOTER -->
+
+            <footer style="
+                padding: 30px 0 10px;
+                color: var(--muted);
+                text-align: center;
+                font-size: 11px;
+            ">
+
+                SmartEdu · Built for better learning ·
+                <span id="currentYear"></span>
+
+            </footer>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- LOADING OVERLAY -->
+
+<div class="loading-overlay hidden"
+     id="loadingOverlay"
+     aria-hidden="true">
+
+    <div class="loading-card">
+
+        <div class="spinner"></div>
+
+        <h3 id="loadingTitle">Please wait</h3>
+
+        <p id="loadingMessage">
+            Processing your request...
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- NOTIFICATION -->
+
+<div class="toast hidden"
+     id="toast"
+     role="status"
+     aria-live="polite"></div>
+
+
+</body>
+</html>

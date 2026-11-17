@@ -2,7 +2,22 @@ import numpy as np
 
 
 # ============================================================
-# RETRIEVE RELEVANT CHUNKS
+# RETRIEVAL CONFIGURATION
+# ============================================================
+
+DEFAULT_TOP_K = 3
+DEFAULT_CANDIDATE_K = 8
+
+# Minimum cosine similarity required for a result to be
+# considered relevant.
+#
+# This is deliberately moderate because similarity scores
+# depend on the embedding model and the document.
+MIN_SIMILARITY = 0.45
+
+
+# ============================================================
+# RETRIEVE RELEVANT DOCUMENT CHUNKS
 # ============================================================
 
 def retrieve_chunks(
@@ -10,22 +25,30 @@ def retrieve_chunks(
     model,
     index,
     chunks,
-    top_k=3,
-    candidate_k=8
+    top_k=DEFAULT_TOP_K,
+    candidate_k=DEFAULT_CANDIDATE_K,
+    min_similarity=MIN_SIMILARITY
 ):
-    """
-    Retrieve the most relevant chunks.
-
-    candidate_k:
-        Number of candidates initially retrieved
-        from FAISS.
-
-    top_k:
-        Number of final results returned.
-    """
 
     # --------------------------------------------------------
-    # Generate query embedding
+    # SAFETY CHECKS
+    # --------------------------------------------------------
+
+    if not query or not query.strip():
+        return [], []
+
+    if index is None:
+        return [], []
+
+    if not chunks:
+        return [], []
+
+    if index.ntotal == 0:
+        return [], []
+
+
+    # --------------------------------------------------------
+    # CREATE QUERY EMBEDDING
     # --------------------------------------------------------
 
     query_embedding = model.encode(
@@ -34,10 +57,6 @@ def retrieve_chunks(
     )
 
 
-    # --------------------------------------------------------
-    # Convert to float32
-    # --------------------------------------------------------
-
     query_embedding = np.asarray(
         query_embedding,
         dtype=np.float32
@@ -45,8 +64,7 @@ def retrieve_chunks(
 
 
     # --------------------------------------------------------
-    # Make sure candidate_k does not exceed
-    # the number of vectors in FAISS
+    # DETERMINE NUMBER OF CANDIDATES
     # --------------------------------------------------------
 
     candidate_k = min(
@@ -56,7 +74,7 @@ def retrieve_chunks(
 
 
     # --------------------------------------------------------
-    # Search FAISS
+    # FAISS SEMANTIC SEARCH
     # --------------------------------------------------------
 
     scores, indices = index.search(
@@ -65,17 +83,12 @@ def retrieve_chunks(
     )
 
 
-    # --------------------------------------------------------
-    # Store results
-    # --------------------------------------------------------
-
     retrieved_chunks = []
-
     retrieved_scores = []
 
 
     # --------------------------------------------------------
-    # Select best results
+    # FILTER RESULTS USING SIMILARITY THRESHOLD
     # --------------------------------------------------------
 
     for score, idx in zip(
@@ -83,8 +96,22 @@ def retrieve_chunks(
         indices[0]
     ):
 
+        # Ignore invalid FAISS indexes
         if idx == -1:
+            continue
 
+
+        # Convert similarity score to float
+        score = float(score)
+
+
+        # Ignore weakly related chunks
+        if score < min_similarity:
+            continue
+
+
+        # Safety check for chunk index
+        if idx >= len(chunks):
             continue
 
 
@@ -93,15 +120,12 @@ def retrieve_chunks(
         )
 
         retrieved_scores.append(
-            float(score)
+            score
         )
 
 
-        # Stop after top_k results
-        if len(
-            retrieved_chunks
-        ) >= top_k:
-
+        # Stop after collecting enough relevant chunks
+        if len(retrieved_chunks) >= top_k:
             break
 
 

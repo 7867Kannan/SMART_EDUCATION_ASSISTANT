@@ -1,8 +1,12 @@
 import streamlit as st
+from sentence_transformers import SentenceTransformer
 
-from sentence_transformers import (
-    SentenceTransformer
-)
+
+# ============================================================
+# MULTILINGUAL EMBEDDING MODEL
+# ============================================================
+
+MODEL_NAME = "Tamil-ai/tamil-embed-base"
 
 
 # ============================================================
@@ -13,7 +17,7 @@ from sentence_transformers import (
 def load_embedding_model():
 
     model = SentenceTransformer(
-        "sentence-transformers/all-MiniLM-L6-v2"
+        MODEL_NAME
     )
 
     return model
