@@ -390,10 +390,4 @@ Therefore, the current implementation is a hybrid local/cloud application rather
 
 ---
 
-## 📄 License
-
-Add an appropriate open-source license before distributing or publishing this project.
-
----
-
 **ECHO BRIDGE – Making Technical Education More Accessible Through AI and Regional Languages.**
